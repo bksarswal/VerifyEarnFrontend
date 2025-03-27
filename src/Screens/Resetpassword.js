@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function ResetPassword(){
-
-    const navigate = useNavigate()
-
-
-
-
+function ResetPassword() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: ''
   });
@@ -44,8 +39,6 @@ function ResetPassword(){
       newErrors.email = '*Please enter a valid email address.';
     }
 
-   
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setIsSubmitting(false);
@@ -53,10 +46,12 @@ function ResetPassword(){
     }
 
     try {
+      // Here you would typically call your backend API to send OTP
+      // For now, we'll simulate the API call with a timeout
       await new Promise(resolve => setTimeout(resolve, 1000));
-      setErrors({
-        auth: '*Invalid email address or password'
-      });
+      
+      // On successful OTP sending, navigate to verification page
+      navigate('/verifyotp');
     } catch (error) {
       setErrors({
         auth: '*An error occurred. Please try again.'
@@ -64,20 +59,20 @@ function ResetPassword(){
     } finally {
       setIsSubmitting(false);
     }
- 
-  navigate('/verifyotp')
-
   };
 
   const handleGoogleLogin = () => {
     console.log('Google login clicked');
+    // Implement your Google authentication logic here
   };
 
   return (
-    <div className="min-h-screen  mt-16 flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full bg-white rounded-[30px] bg-[#F2FAFA] p-8 relative">
-        {/* Close button */}
-        <button className="absolute top-6 right-6 text-black hover:text-gray-700">
+    <div className="min-h-screen mt-16 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full rounded-[30px] bg-[#F2FAFA] p-8 relative">
+        <button 
+          className="absolute top-6 right-6 text-black hover:text-gray-700"
+          onClick={() => navigate('/')}
+        >
           <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -93,34 +88,32 @@ function ResetPassword(){
               value={formData.email}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2196F3] font-poppins text-[16px]"
-              placeholder=" enter your email"
+              placeholder="Enter your email"
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1 font-poppins">{errors.email}</p>
             )}
           </div>
 
-         
-
-        
-
           <button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-[#2196F3] text-white py-3 rounded-xl hover:bg-[#1976D2] focus:outline-none focus:ring-2 focus:ring-[#2196F3] focus:ring-offset-2 disabled:opacity-50 transition-colors font-poppins text-[18px]"
           >
-            {isSubmitting ? 'Otp Sending...' : 'Send Otp'}
+            {isSubmitting ? 'OTP Sending...' : 'Send OTP'}
           </button>
+
           <div className="text-center font-poppins">
             Don&apos;t have an account?{' '}
             <a href="/signup" className="text-[#2196F3] hover:text-[#1976D2]">
               Signup
             </a>
           </div>
-         < div className="text-center font-poppins">
+          
+          <div className="text-center font-poppins">
             Already have an account?{' '}
-            <a href="/login" className="text-[#2196F3] hover:text-[#1976D2]">
-              Login
+            <a href="/signin" className="text-[#2196F3] hover:text-[#1976D2]">
+              Signin
             </a>
           </div>
 
@@ -158,13 +151,10 @@ function ResetPassword(){
             </svg>
             Login with Google
           </button>
-
-          
         </form>
       </div>
     </div>
   );
-};
+}
 
 export default ResetPassword;
-

@@ -1,13 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import logo from "../Assetss/imadsdge.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Function to determine if a link is active
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
-    <div className="w-full  fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-sm shadow-md">
+    <div className="w-full fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-sm shadow-md">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-3">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
@@ -24,20 +30,32 @@ export default function Navbar() {
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center space-x-8">
           <Link
-            to="/"
-            className="text-[16px] lg:text-[20px] text-[#252525] hover:text-gray-700 transition-colors font-bold font-poppins"
+            to="/home"
+            className={`text-[16px] lg:text-[20px] font-bold font-poppins transition-colors ${
+              isActive("/home")
+                ? "text-[#2196F3] "
+                : "text-[#252525] hover:text-[#2196F3] "
+            }`}
           >
             Home
           </Link>
           <Link
             to="/howitsworks"
-            className="text-[16px] lg:text-[20px] text-[#252525] hover:text-gray-700 transition-colors font-bold font-poppins"
+            className={`text-[16px] lg:text-[20px] font-bold font-poppins transition-colors ${
+              isActive("/howitsworks")
+                ? "text-[#2196F3] "
+                : "text-[#252525] hover:text-[#2196F3] "
+            }`}
           >
             How it&apos;s Work
           </Link>
           <Link
             to="/about"
-            className="text-[16px] lg:text-[20px] text-[#252525] hover:text-gray-700 transition-colors font-bold font-poppins"
+            className={`text-[16px] lg:text-[20px] font-bold font-poppins transition-colors ${
+              isActive("/about")
+                ? "text-[#2196F3] "
+                : "text-[#252525] hover:text-[#2196F3] "
+            }`}
           >
             About Us
           </Link>
@@ -47,7 +65,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center space-x-4">
           <button
             className="bg-[#2196F3] hover:bg-[#1976D2] text-white rounded-full px-4 sm:px-6 py-2 sm:py-3 text-[14px] sm:text-[16px] lg:text-[20px] font-semibold font-poppins"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/signin")}
           >
             Sign in
           </button>
@@ -111,52 +129,57 @@ export default function Navbar() {
 
           {/* Sidebar */}
           <div
-            className={`fixed top-0 right-0 w-64 h-full bg-gradient-to-b  text-white shadow-lg z-50 transform transition-transform duration-300 ${
-              isMenuOpen ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            <div className="flex  bg-slate-400 min-h-lvh flex-col space-y-6 p-6">
-              <Link
-                to="/"
-                className="text-[18px] font-bold font-poppins hover:text-gray-200 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                to="/how-it-works"
-                className="text-[18px] font-bold font-poppins hover:text-gray-200 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                How it&apos;s Work
-              </Link>
-              <Link
-                to="/about"
-                className="text-[18px] font-bold font-poppins hover:text-gray-200 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About Us
-              </Link>
-              <button
-                className="bg-white text-[#2196F3] hover:bg-gray-100 rounded-full px-6 py-2 font-semibold"
-                onClick={() => {
-                  navigate("/login");
-                  setIsMenuOpen(false);
-                }}
-              >
-                Sign in
-              </button>
-              <button
-                className="bg-white text-[#2196F3] hover:bg-gray-100 rounded-full px-6 py-2 font-semibold"
-                onClick={() => {
-                  navigate("/signup");
-                  setIsMenuOpen(false);
-                }}
-              >
-                Sign up
-              </button>
-            </div>
-          </div>
+  className={`fixed top-0 right-0 w-64 h-full bg-gradient-to-b from-blue-500 to-cyan-500 text-white shadow-lg z-50 transform transition-transform duration-300 ${
+    isMenuOpen ? "translate-x-0" : "translate-x-full"
+  }`}
+>
+  <div className="flex min-h-lvh flex-col space-y-6 p-6 bg-[#96f5f5]">
+    <Link
+      to="/"
+      className={`text-[18px] font-bold font-poppins px-4 py-2 rounded-md transition-colors ${
+        isActive("/") ? "text-[#2196F3]" : "text-white hover:text-[#2196F3]"
+      }`}
+      onClick={() => setIsMenuOpen(false)}
+    >
+      Home
+    </Link>
+    <Link
+      to="/how-it-works"
+      className={`text-[18px] font-bold font-poppins px-4 py-2 rounded-md transition-colors ${
+        isActive("/how-it-works")
+          ? "text-[#2196F3]"
+          : "text-white hover:text-[#2196F3]"
+      }`}
+      onClick={() => setIsMenuOpen(false)}
+    >
+      How it Works
+    </Link>
+    <Link
+      to="/about"
+      className={`text-[18px] font-bold font-poppins px-4 py-2 rounded-md transition-colors ${
+        isActive("/about") ? "text-[#2196F3]" : "text-white hover:text-[#2196F3]"
+      }`}
+      onClick={() => setIsMenuOpen(false)}
+    >
+      About Us
+    </Link>
+    <Link
+      to="/signin"
+      className="text-[#2196F3] bg-white px-4 py-2 rounded-md text-center hover:bg-gray-100 transition"
+      onClick={() => setIsMenuOpen(false)}
+    >
+      Sign in
+    </Link>
+    <Link
+      to="/signup"
+      className="text-[#2196F3] bg-white px-4 py-2 rounded-md text-center hover:bg-gray-100 transition"
+      onClick={() => setIsMenuOpen(false)}
+    >
+      Sign up
+    </Link>
+  </div>
+</div>
+
         </>
       )}
     </div>

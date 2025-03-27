@@ -1,38 +1,9 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import AllRouter from "./AllRouter";
-import AuthRouter from "./AuthRouter";
-import Footer from "../Layout/Footer";
+import React from 'react'
 
-import DashboardRouter from "./Dasboardrouter";
-
-function CombineRouter() {
-  // Manage authentication state (example: you might fetch this from a context or API)
-  const auth = useSelector((state) => state.isAuthenticated);
-
-
+const CombineRouter = () => {
   return (
-    <>
-     
-     
-
-        {/* Conditionally Render Routes */}
-        
-          {auth ? (
-            <DashboardRouter />
-          ) : (
-            <>
-              <AllRouter />
-              <AuthRouter />
-            </>
-          )}
-        
-    
-
-      {/* Footer */}
-      <Footer />
-    </>
-  );
+    <div>CombineRouter</div>
+  )
 }
 
-export default CombineRouter;
+export default CombineRouter
